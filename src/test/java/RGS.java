@@ -61,16 +61,47 @@ public class RGS {
                 ("На странице нет заголовка с текстом \"Заявка на добровольное медицинское страхование\"",
                         textModalHeader.contains("Заявка на добровольное медицинское страхование"));
 
+        // Заполнение полей данными
+        WebElement surname = driver.findElement(By.xpath
+                (".//label[text() = 'Фамилия']/following-sibling::input"));
+        surname.sendKeys("Васильев");
+        WebElement name = driver.findElement(By.xpath
+                (".//input[@name = 'FirstName']"));
+        name.sendKeys("Василий");
+        WebElement patronymic = driver.findElement(By.xpath
+                (".//input[@name = 'MiddleName']"));
+        patronymic.sendKeys("Васильевич");
+        WebElement region = driver.findElement(By.xpath
+                (".//select[@name = 'Region']"));
+        region.click();
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath
+                (".//option[@value = '77']"))));
+        WebElement region77 = driver.findElement(By.xpath(".//option[@value = '77']"));
+        region77.click();
+        WebElement phoneNumber = driver.findElement(By.xpath
+                (".//label[text() = 'Телефон']/following-sibling::input"));
+        phoneNumber.sendKeys("9161505050");
         WebElement email = driver.findElement(By.xpath
                 (".//label[text() = 'Эл. почта']/following-sibling::input"));
         email.sendKeys("qwertyqwerty");
-        //WebElement emailInput = driver.findElement(By.xpath
-        //        (".//label[text() = 'Эл. почта']/following-sibling::input//*[text()!='']"));
-        //String textEmail = email.getText();
-        //Assert.assertTrue("Email не отобразился", textEmail.contains("qwertyqwerty"));
-
+        WebElement contactDate = driver.findElement(By.xpath
+                (".//input[@name='ContactDate']"));
+        contactDate.sendKeys("22052018");
+        WebElement commentary = driver.findElement(By.xpath
+                (".//textarea[@name='Comment']"));
+        commentary.sendKeys("testtesttest");
         WebElement checkbox = driver.findElement(By.className("checkbox"));
         checkbox.click();
+
+        Assert.assertEquals("Васильев", driver.findElement(By.name("LastName")).getAttribute("value"));
+        Assert.assertEquals("Василий", driver.findElement(By.name("FirstName")).getAttribute("value"));
+        Assert.assertEquals("Васильевич", driver.findElement(By.name("MiddleName")).getAttribute("value"));
+        Assert.assertEquals("77", driver.findElement(By.xpath(".//select[@name = 'Region']")).getAttribute("value"));
+        Assert.assertEquals("+7 (916) 150-50-50", driver.findElement(By.xpath
+                (".//label[contains(text(), 'Телефон')]/following-sibling::input")).getAttribute("value"));
+        Assert.assertEquals("qwertyqwerty", driver.findElement(By.name("Email")).getAttribute("value"));
+        Assert.assertEquals("22.05.2018", driver.findElement(By.name("ContactDate")).getAttribute("value"));
+        Assert.assertEquals("testtesttest", driver.findElement(By.name("Comment")).getAttribute("value"));
 
         WebElement send = driver.findElement(By.id("button-m"));
         send.click();
